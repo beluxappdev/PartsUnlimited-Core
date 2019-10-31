@@ -23,3 +23,16 @@ jobs:
       run: dotnet test
     - name: Publish with dotnet
       run: dotnet publish -c release
+       - uses: azure/actions/login@master
+
+ with:
+     creds: ${{ secrets.azurecredentials }}
+ - name: Create or Update Resources
+   run: |
+        az appservice plan create --resource-group belux-test-partsunlimited --name beluxpartsunlimited --sku free
+        az webapp create --resource-group belux-test-partsunlimited --plan beluxpartsunlimited --name beluxpartsunlimited
+ - name: 'Run Azure webapp deploy action'
+   uses: azure/webapps-deploy@v1
+   with: 
+     app-name: beluxpartsunlimited
+     package: './src/PartsUnlimitedWebsite/bin/Release/netcoreapp2.0/publish/'
