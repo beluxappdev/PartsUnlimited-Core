@@ -27,7 +27,8 @@ jobs:
            creds: ${{ secrets.azurecredentials }}
        - name: Create or Update Resources
          run: |
-           az appservice plan create --resource-group belux-test-partsunlimited --name beluxpartsunlimited --sku free
+           az group create --name belux-test-partsunlimited --location westeurope
+           az appservice plan create --resource-group belux-test-partsunlimited --name beluxpartsunlimited --sku free --location westeurope
            az webapp create --resource-group belux-test-partsunlimited --plan beluxpartsunlimited --name beluxpartsunlimited
        - name: 'Run Azure webapp deploy action'
          uses: azure/webapps-deploy@v1
